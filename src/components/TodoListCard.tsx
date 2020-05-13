@@ -31,9 +31,6 @@ const TodoListCard: React.FC = () => {
         >
           firebaseに入門する
         </Typography>
-        <Typography variant="body2" component="p">
-          5/12
-        </Typography>
       </CardContent>
     </Card>
   );

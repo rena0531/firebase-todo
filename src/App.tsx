@@ -1,14 +1,11 @@
 import React from "react";
 import "./App.css";
-import { Grid, IconButton, makeStyles, Box } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { Grid, makeStyles } from "@material-ui/core";
 import Header from "components/Header";
 import TodoList from "components/TodoList";
+import TodoForm from "components/TodoForm";
 
 const useStyles = makeStyles({
-  add: {
-    marginLeft: "auto",
-  },
   item: {
     background: "#ebecf0",
     maxWidth: 300,
@@ -18,9 +15,9 @@ const useStyles = makeStyles({
     padding: 5,
     position: "relative",
   },
-  addTaskList: {
+  addTodoList: {
     background: "#ebecf0",
-    maxWidth: 300,
+    width: 300,
     margin: 10,
     padding: 5,
   },
@@ -46,13 +43,8 @@ const App: React.SFC = () => {
           <TodoList />
         </Grid>
 
-        <Grid item className={classes.addTaskList}>
-          <Box>
-            もう１つリストを追加
-            <IconButton className={classes.add}>
-              <AddIcon />
-            </IconButton>
-          </Box>
+        <Grid item className={classes.addTodoList}>
+          <TodoForm />
         </Grid>
       </Grid>
     </div>
