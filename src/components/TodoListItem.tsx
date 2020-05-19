@@ -18,7 +18,11 @@ const useStyles = makeStyles({
   },
 });
 
-const TodoListCard: React.FC = () => {
+type TodoListCardProps = {
+  name: string;
+};
+
+const TodoListCard: React.FC<TodoListCardProps> = ({ name }) => {
   const classes = useStyles();
 
   return (
@@ -29,7 +33,7 @@ const TodoListCard: React.FC = () => {
           color="textSecondary"
           gutterBottom
         >
-          firebaseに入門する
+          {name}
         </Typography>
       </CardContent>
     </Card>

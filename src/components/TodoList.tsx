@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Typography } from "@material-ui/core";
 import TodoListMenu from "components/TodoListMenu";
-import TodoListCard from "./TodoListCard";
+import { Task } from "models/models";
+import { fetchTasks } from "api/List";
+import TodoListItem from "./TodoListItem";
 import TaskFormCard from "./TaskFormCard";
 
 const useStyles = makeStyles({
@@ -13,10 +15,26 @@ const useStyles = makeStyles({
 
 type TodoListProps = {
   name: string;
+  count: number;
 };
 
-const TodoList: React.FC<TodoListProps> = ({ name }) => {
+const TodoList: React.FC<TodoListProps> = ({ name, count }) => {
   const classes = useStyles();
+  const [task, setTask] = useState<Task[]>([]);
+
+  const load = async (taskId: number) => {
+    try {
+      const tasksData = await fetchTasks(taskId);
+      setTask(tasksData);
+      console.log("task", tasksData);
+    } catch (e) {
+      console.log(e, "taskの取得に失敗しました");
+    }
+  };
+
+  useEffect(() => {
+    load(0);
+  }, []);
 
   return (
     <>
@@ -24,9 +42,9 @@ const TodoList: React.FC<TodoListProps> = ({ name }) => {
       <Typography variant="h6" className={classes.title}>
         {name}
       </Typography>
-      <TodoListCard />
-      <TodoListCard />
-      <TodoListCard />
+      {task.map((t: Task, ti: number) => (
+        <TodoListItem name={t.name} key={ti} />
+      ))}
       <TaskFormCard />
     </>
   );

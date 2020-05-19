@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Grid, makeStyles } from "@material-ui/core";
 import TodoList from "components/TodoList";
 import TodoForm from "components/TodoForm";
-import fetchLists from "api/List";
+import { fetchLists } from "api/List";
 import { List } from "models/models";
 
 const useStyles = makeStyles({
@@ -31,10 +31,10 @@ export const TaskList: React.FC = () => {
   const load = async () => {
     try {
       const listsData = await fetchLists();
-      console.log(listsData);
       setData(listsData);
+      console.log("lists", listsData);
     } catch (e) {
-      console.log("taskリストの取得に失敗しました");
+      console.log(e, "listの取得に失敗しました");
     }
   };
 
@@ -51,10 +51,9 @@ export const TaskList: React.FC = () => {
     >
       {data.map((v: List, i: number) => (
         <Grid item className={classes.item} key={i}>
-          <TodoList name={v.name} />
+          <TodoList name={v.name} count={data.length} />
         </Grid>
       ))}
-
       <Grid item className={classes.addTodoList}>
         <TodoForm />
       </Grid>
