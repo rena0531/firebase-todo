@@ -11,14 +11,18 @@ const useStyles = makeStyles({
   },
 });
 
-const TodoList: React.SFC = () => {
+type TodoListProps = {
+  name: string;
+};
+
+const TodoList: React.FC<TodoListProps> = ({ name }) => {
   const classes = useStyles();
 
   return (
     <>
       <TodoListMenu />
       <Typography variant="h6" className={classes.title}>
-        TodoListName
+        {name}
       </Typography>
       <TodoListCard />
       <TodoListCard />
