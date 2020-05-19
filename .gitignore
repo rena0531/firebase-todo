@@ -29,3 +29,6 @@ yarn-error.log*
 .idea/modules.xml
 .idea/todo-study.iml
 .idea/vcs.xml
+
+FirebaseConfig.ts
+.firebase/

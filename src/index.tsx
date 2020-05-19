@@ -1,8 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import firebase from "firebase/app";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import "firebase/firestore";
+import { firebaseConfig } from "./FirebaseConfig";
+
+firebase.initializeApp(firebaseConfig);
 
 ReactDOM.render(
   <React.StrictMode>
