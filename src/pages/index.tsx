@@ -51,7 +51,7 @@ export const TaskList: React.FC = () => {
     >
       {data.map((v: List, i: number) => (
         <Grid item className={classes.item} key={i}>
-          <TodoList name={v.name} count={data.length} />
+          <TodoList name={v.name} />
         </Grid>
       ))}
       <Grid item className={classes.addTodoList}>

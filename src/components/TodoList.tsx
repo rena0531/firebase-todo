@@ -15,25 +15,27 @@ const useStyles = makeStyles({
 
 type TodoListProps = {
   name: string;
-  count: number;
 };
 
-const TodoList: React.FC<TodoListProps> = ({ name, count }) => {
+const TodoList: React.FC<TodoListProps> = ({ name }) => {
   const classes = useStyles();
-  const [task, setTask] = useState<Task[]>([]);
+  const [task, setTask] = useState<Task[][]>([]);
 
-  const load = async (taskId: number) => {
+  const load = async () => {
     try {
-      const tasksData = await fetchTasks(taskId);
-      setTask(tasksData);
-      console.log("task", tasksData);
+      const tasksData = await fetchTasks();
+      Promise.all([...tasksData]).then((values) => {
+        const tasks = values.map((v) => v);
+        console.log("tasks", tasks);
+        setTask(tasks);
+      });
     } catch (e) {
       console.log(e, "taskの取得に失敗しました");
     }
   };
 
   useEffect(() => {
-    load(0);
+    load();
   }, []);
 
   return (
@@ -42,12 +44,14 @@ const TodoList: React.FC<TodoListProps> = ({ name, count }) => {
       <Typography variant="h6" className={classes.title}>
         {name}
       </Typography>
-      {task.map((t: Task, ti: number) => (
-        <TodoListItem name={t.name} key={ti} />
-      ))}
+      {task.map((t: Task[]) =>
+        t.map((v: Task, ti: number) => <TodoListItem name={v.name} key={ti} />)
+      )}
       <TaskFormCard />
     </>
   );
 };
 
 export default TodoList;
+/*
+ */
