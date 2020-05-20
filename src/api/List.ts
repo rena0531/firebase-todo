@@ -1,4 +1,4 @@
-import firebase, { firestore } from "firebase";
+import { firestore } from "firebase";
 import { collectionName } from "models/constants";
 import { List, Task } from "../models/models";
 
@@ -16,7 +16,7 @@ export const fetchTasks = async () => {
       .doc(doc.id)
       .collection(collectionName.tasks)
       .get();
-    return Promise.resolve(ref.docs.map((d) => d.data() as Task));
+    return ref.docs.map((d) => d.data() as Task);
   });
   return tasks;
 };

@@ -44,14 +44,20 @@ const TodoList: React.FC<TodoListProps> = ({ name }) => {
       <Typography variant="h6" className={classes.title}>
         {name}
       </Typography>
-      {task.map((t: Task[]) =>
-        t.map((v: Task, ti: number) => <TodoListItem name={v.name} key={ti} />)
-      )}
+      {task.map((t: Task[], ti: number) => (
+        <TodoListItem key={ti} task={t} />
+      ))}
       <TaskFormCard />
     </>
   );
 };
 
 export default TodoList;
-/*
- */
+
+/* 
+{task.forEach((t: Task[], ti: number) => {
+        Object.keys(t).forEach((_, key) => (
+          <TodoListItem key={ti} name={t[key].name} />
+        ));
+      })}
+*/

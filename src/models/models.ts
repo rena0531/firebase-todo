@@ -6,4 +6,5 @@ export type List = {
 export type Task = {
   id: string;
   name: string;
+  state: string;
 };
