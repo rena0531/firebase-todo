@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Grid, makeStyles } from "@material-ui/core";
-import TodoList from "components/TodoList";
+import { Grid, makeStyles, Typography } from "@material-ui/core";
 import TodoForm from "components/TodoForm";
-import { fetchLists } from "api/List";
-import { List } from "models/models";
+import { fetchLists, fetchTasks } from "api/List";
+import { List, Task } from "models/models";
+import TodoListMenu from "components/TodoListMenu";
+import TodoListItem from "../components/TodoListItem";
+import TaskFormCard from "../components/TaskFormCard";
 
 const useStyles = makeStyles({
   item: {
@@ -21,14 +23,19 @@ const useStyles = makeStyles({
     margin: 10,
     padding: 5,
   },
+  title: {
+    padding: 5,
+    margin: "0 auto",
+  },
 });
 
 export const TaskList: React.FC = () => {
   const classes = useStyles();
 
   const [data, setData] = useState<List[]>([]);
+  const [task, setTask] = useState<Task[][]>([]);
 
-  const load = async () => {
+  const getLists = async () => {
     try {
       const listsData = await fetchLists();
       setData(listsData);
@@ -38,8 +45,22 @@ export const TaskList: React.FC = () => {
     }
   };
 
+  const getTasks = async () => {
+    try {
+      const tasksData = await fetchTasks();
+      Promise.all([...tasksData]).then((values) => {
+        const tasks = values.map((v) => v);
+        console.log("tasks", tasks);
+        setTask(tasks);
+      });
+    } catch (e) {
+      console.log(e, "taskの取得に失敗しました");
+    }
+  };
+
   useEffect(() => {
-    load();
+    getLists();
+    getTasks();
   }, []);
 
   return (
@@ -49,9 +70,19 @@ export const TaskList: React.FC = () => {
       justify="flex-start"
       alignItems="flex-start"
     >
-      {data.map((v: List, i: number) => (
-        <Grid item className={classes.item} key={i}>
-          <TodoList name={v.name} />
+      {data.map((lv: List, li: number) => (
+        <Grid item className={classes.item} key={li}>
+          <TodoListMenu />
+
+          <Typography variant="h6" className={classes.title}>
+            {lv.name}
+          </Typography>
+
+          {task.map((tv: Task[], ti: number) => (
+            <TodoListItem key={ti} task={tv} />
+          ))}
+
+          <TaskFormCard />
         </Grid>
       ))}
       <Grid item className={classes.addTodoList}>

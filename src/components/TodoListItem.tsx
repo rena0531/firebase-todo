@@ -25,50 +25,49 @@ type TodoListCardProps = {
 
 const TodoListItem: React.FC<TodoListCardProps> = ({ task }) => {
   const classes = useStyles();
-  const [progress, setProgress] = useState("");
-  const [complete, setComplete] = useState("");
-  const [want, setWant] = useState("");
+  const [progress, setProgress] = useState<Task[]>([]);
+  const [complete, setComplete] = useState<Task[]>([]);
+  const [want, setWant] = useState<Task[]>([]);
 
-  const getStateProgress = () => {
+  const getState = () => {
+    const stateData = task.map((data) => data);
     task.map((v: Task) => {
       switch (v.state) {
         case "progress":
-          console.log("progress", v.name);
-          setProgress(v.name);
+          setProgress(stateData);
           break;
         case "complete":
-          console.log("complete", v.name);
-          setComplete(v.name);
+          setComplete(stateData);
           break;
         case "want":
-          console.log("want", v.name);
-          setWant(v.name);
+          setWant(stateData);
           break;
         default:
-          console.log("default", v.name);
+          console.log("default", v);
       }
     });
   };
 
   useEffect(() => {
-    getStateProgress();
+    getState();
   }, []);
 
   return (
-    <Card className={classes.root}>
-      <CardContent>
-        {task.map((v, i) => (
-          <Typography
-            className={classes.title}
-            color="textSecondary"
-            gutterBottom
-            key={i}
-          >
-            {v.name}
-          </Typography>
-        ))}
-      </CardContent>
-    </Card>
+    <>
+      {progress.map((v: Task, i: number) => (
+        <Card className={classes.root} key={i}>
+          <CardContent>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
+              {v.name}
+            </Typography>
+          </CardContent>
+        </Card>
+      ))}
+    </>
   );
 };
 
