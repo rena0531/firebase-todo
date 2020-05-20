@@ -31,6 +31,7 @@ const TodoListItem: React.FC<TodoListCardProps> = ({ task }) => {
 
   const getState = () => {
     const stateData = task.map((data) => data);
+
     task.map((v: Task) => {
       switch (v.state) {
         case "progress":
@@ -48,13 +49,9 @@ const TodoListItem: React.FC<TodoListCardProps> = ({ task }) => {
     });
   };
 
-  useEffect(() => {
-    getState();
-  }, []);
-
-  return (
-    <>
-      {progress.map((v: Task, i: number) => (
+  const getLists = () => {
+    if (progress) {
+      return progress.map((v: Task, i: number) => (
         <Card className={classes.root} key={i}>
           <CardContent>
             <Typography
@@ -66,9 +63,47 @@ const TodoListItem: React.FC<TodoListCardProps> = ({ task }) => {
             </Typography>
           </CardContent>
         </Card>
-      ))}
-    </>
-  );
+      ));
+    }
+    if (complete) {
+      return complete.map((v: Task, i: number) => (
+        <Card className={classes.root} key={i}>
+          <CardContent>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
+              {v.name}
+            </Typography>
+          </CardContent>
+        </Card>
+      ));
+    }
+    if (want) {
+      return want.map((v: Task, i: number) => (
+        <Card className={classes.root} key={i}>
+          <CardContent>
+            <Typography
+              className={classes.title}
+              color="textSecondary"
+              gutterBottom
+            >
+              {v.name}
+            </Typography>
+          </CardContent>
+        </Card>
+      ));
+    }
+    return "";
+  };
+
+  useEffect(() => {
+    getLists();
+    getState();
+  }, []);
+
+  return <></>;
 };
 
 export default TodoListItem;
