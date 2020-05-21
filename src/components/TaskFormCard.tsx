@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button, Card, CardContent } from "@material-ui/core";
+import { addTask } from "api/List";
 
 const useStyles = makeStyles({
   root: {
@@ -18,22 +19,32 @@ const useStyles = makeStyles({
 
 const TaskFormCard: React.FC = () => {
   const classes = useStyles();
+  const [newTask, setNewTask] = useState<any>("");
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setNewTask(event.target.value);
+  };
+
+  const onSubmit = () => addTask(newTask);
 
   return (
     <Card className={classes.root}>
       <CardContent>
-        <form>
+        <form onSubmit={() => onSubmit}>
           <TextField
             required
             id="standard-required"
             className={classes.title}
             placeholder="firebaseをやる"
+            onChange={handleChange}
+            value={newTask}
           />
           <Button
             className={classes.createBtn}
             variant="contained"
             color="primary"
-            onClick={() => console.log("作成")}
+            type="submit"
+            onClick={(e) => e.preventDefault()}
           >
             作成
           </Button>
