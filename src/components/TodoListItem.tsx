@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Card, CardContent, Typography } from "@material-ui/core";
-import { Task } from "models/models";
+import { Task, List } from "models/models";
 
 const useStyles = makeStyles({
   root: {
@@ -21,9 +21,10 @@ const useStyles = makeStyles({
 
 type TodoListCardProps = {
   task: Task[];
+  list: List;
 };
 
-const TodoListItem: React.FC<TodoListCardProps> = ({ task }) => {
+const TodoListItem: React.FC<TodoListCardProps> = ({ task, list }) => {
   const classes = useStyles();
   const [progress, setProgress] = useState<Task[]>([]);
   const [complete, setComplete] = useState<Task[]>([]);
@@ -31,7 +32,6 @@ const TodoListItem: React.FC<TodoListCardProps> = ({ task }) => {
 
   const getState = () => {
     const stateData = task.map((data) => data);
-
     task.map((v: Task) => {
       switch (v.state) {
         case "progress":
@@ -49,60 +49,65 @@ const TodoListItem: React.FC<TodoListCardProps> = ({ task }) => {
     });
   };
 
-  const getLists = () => {
-    if (progress) {
-      return progress.map((v: Task, i: number) => (
-        <Card className={classes.root} key={i}>
-          <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              {v.name}
-            </Typography>
-          </CardContent>
-        </Card>
-      ));
-    }
-    if (complete) {
-      return complete.map((v: Task, i: number) => (
-        <Card className={classes.root} key={i}>
-          <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              {v.name}
-            </Typography>
-          </CardContent>
-        </Card>
-      ));
-    }
-    if (want) {
-      return want.map((v: Task, i: number) => (
-        <Card className={classes.root} key={i}>
-          <CardContent>
-            <Typography
-              className={classes.title}
-              color="textSecondary"
-              gutterBottom
-            >
-              {v.name}
-            </Typography>
-          </CardContent>
-        </Card>
-      ));
-    }
-    return "";
+  const getProgress = () => {
+    return progress.map((v: Task, i: number) => (
+      <Card className={classes.root} key={i}>
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            {v.name}
+          </Typography>
+        </CardContent>
+      </Card>
+    ));
+  };
+
+  const getComplete = () => {
+    return complete.map((v: Task, i: number) => (
+      <Card className={classes.root} key={i}>
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            {v.name}
+          </Typography>
+        </CardContent>
+      </Card>
+    ));
+  };
+
+  const getWant = () => {
+    return want.map((v: Task, i: number) => (
+      <Card className={classes.root} key={i}>
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            gutterBottom
+          >
+            {v.name}
+          </Typography>
+        </CardContent>
+      </Card>
+    ));
   };
 
   useEffect(() => {
     return getState();
   }, [task]);
 
-  return <>{getLists()}</>;
+  return (
+    <>
+      {list.name === "作業中" && getProgress()}
+      {list.name === "完了" && getComplete()}
+      {list.name === "やりたいこと" && getWant()}
+    </>
+  );
 };
 
 export default TodoListItem;

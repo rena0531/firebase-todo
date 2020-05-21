@@ -79,7 +79,7 @@ export const TaskList: React.FC = () => {
           </Typography>
 
           {task.map((tv: Task[], ti: number) => (
-            <TodoListItem key={ti} task={tv} />
+            <TodoListItem key={ti} task={tv} list={lv} />
           ))}
 
           <TaskFormCard />
