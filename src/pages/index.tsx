@@ -85,9 +85,9 @@ export const TaskList: React.FC = () => {
           <TaskFormCard />
         </Grid>
       ))}
-      <Grid item className={classes.addTodoList}>
+      {/* <Grid item className={classes.addTodoList}>
         <TodoForm />
-      </Grid>
+          </Grid> */}
     </Grid>
   );
 };
