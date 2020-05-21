@@ -99,11 +99,10 @@ const TodoListItem: React.FC<TodoListCardProps> = ({ task }) => {
   };
 
   useEffect(() => {
-    getLists();
-    getState();
-  }, []);
+    return getState();
+  }, [task]);
 
-  return <></>;
+  return <>{getLists()}</>;
 };
 
 export default TodoListItem;
