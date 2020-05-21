@@ -1,14 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import {
-  TextField,
-  ExpansionPanel,
-  ExpansionPanelSummary,
-  IconButton,
-  ExpansionPanelDetails,
-  Button,
-} from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
+import { TextField, Button, Card, CardContent } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
@@ -17,9 +9,6 @@ const useStyles = makeStyles({
   },
   title: {
     fontSize: 14,
-  },
-  addBtn: {
-    marginLeft: "auto",
   },
   createBtn: {
     right: 20,
@@ -31,19 +20,8 @@ const TaskFormCard: React.FC = () => {
   const classes = useStyles();
 
   return (
-    <ExpansionPanel className={classes.root}>
-      <ExpansionPanelSummary
-        expandIcon={
-          <IconButton className={classes.addBtn}>
-            <AddIcon />
-          </IconButton>
-        }
-        aria-controls="additional-actions1-content"
-        id="additional-actions1-header"
-      >
-        タスクの追加
-      </ExpansionPanelSummary>
-      <ExpansionPanelDetails>
+    <Card className={classes.root}>
+      <CardContent>
         <form>
           <TextField
             required
@@ -55,12 +33,13 @@ const TaskFormCard: React.FC = () => {
             className={classes.createBtn}
             variant="contained"
             color="primary"
+            onClick={() => console.log("作成")}
           >
             作成
           </Button>
         </form>
-      </ExpansionPanelDetails>
-    </ExpansionPanel>
+      </CardContent>
+    </Card>
   );
 };
 
