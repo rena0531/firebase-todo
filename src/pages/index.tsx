@@ -82,7 +82,7 @@ export const TaskList: React.FC = () => {
             <TodoListItem key={ti} task={tv} list={lv} />
           ))}
 
-          <TaskFormCard />
+          <TaskFormCard list={lv} />
         </Grid>
       ))}
       {/* <Grid item className={classes.addTodoList}>

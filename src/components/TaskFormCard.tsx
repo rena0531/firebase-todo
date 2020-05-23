@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { TextField, Button, Card, CardContent } from "@material-ui/core";
 import { addTask } from "api/List";
+import { Task, List } from "models/models";
 
 const useStyles = makeStyles({
   root: {
@@ -17,15 +18,22 @@ const useStyles = makeStyles({
   },
 });
 
-const TaskFormCard: React.FC = () => {
+type TaskFormCardProps = {
+  list: List;
+};
+
+const TaskFormCard: React.FC<TaskFormCardProps> = ({ list }) => {
   const classes = useStyles();
-  const [newTask, setNewTask] = useState<any>("");
+  const [newTask, setNewTask] = useState<string>("");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTask(event.target.value);
   };
 
-  const onSubmit = () => addTask(newTask);
+  const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+    addTask(list.id, newTask);
+  };
 
   return (
     <Card className={classes.root}>
@@ -44,7 +52,7 @@ const TaskFormCard: React.FC = () => {
             variant="contained"
             color="primary"
             type="submit"
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => onSubmit(e)}
           >
             作成
           </Button>

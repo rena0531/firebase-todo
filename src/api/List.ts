@@ -21,8 +21,15 @@ export const fetchTasks = async () => {
   return tasks;
 };
 
-export const addTask = async (docData: Task) => {
-  console.log("docData", docData);
-  const lists = firestore().collection(collectionName.lists);
-  await lists.doc().set(docData);
+export const addTask = (listId: string, docData: string) => {
+  const collection = firestore().collection(collectionName.lists);
+  const document = collection.doc(listId);
+  const newTask = document.collection(collectionName.tasks).doc();
+
+  return firestore().runTransaction(async (transaction) => {
+    await transaction.get(document);
+    return transaction.set(newTask, {
+      name: docData,
+    });
+  });
 };
